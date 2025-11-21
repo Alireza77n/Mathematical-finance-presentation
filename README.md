@@ -7,8 +7,7 @@ The goal is to demonstrate end-to-end workflows for:
 
 - Building classification models for **stock market direction** and **credit default risk**
 - Building a regression model for **credit card balance**
-- Performing exploratory analysis, feature preprocessing, model training, evaluation, and basic sensitivity analysis :contentReference[oaicite:0]{index=0}
-
+- Performing exploratory analysis, feature preprocessing, model training, evaluation, and basic sensitivity analysis 
 All examples are implemented in Python (Jupyter Notebook style) using standard data-science libraries.
 
 ---
