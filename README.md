@@ -1,116 +1,126 @@
-# Logistic Regression for Financial Data
+# Logistic and Regularized Regression for Financial Data
 
-## Project overview
+## Project info
 
-This repository contains a set of **logistic regression** and **linear regression** experiments applied to real and simulated **financial datasets**.  
-The goal is to demonstrate end-to-end workflows for:
+This repository contains two small but complete projects that apply
+**statistical learning methods** to financial data:
 
-- Building classification models for **stock market direction** and **credit default risk**
-- Building a regression model for **credit card balance**
-- Performing exploratory analysis, feature preprocessing, model training, evaluation, and basic sensitivity analysis 
-All examples are implemented in Python (Jupyter Notebook style) using standard data-science libraries.
+1. **S&P 500 Direction Prediction** using logistic regression  
+2. **Credit Card Balance Regression** using multi–feature regression with
+   regularization (Lasso, Ridge, Elastic Net)
 
----
-
-## Datasets and problems
-
-### 1. S&P 500 stock market data
-
-Daily S&P 500 index data is downloaded using `yfinance`. The notebook:
-
-- Computes **lagged returns** (`Lag1`–`Lag5`) and **Volume**
-- Defines a binary target variable **Direction** (`Up` / `Down`) based on the sign of the next-day return
-- Trains a **logistic regression classifier** to predict next-day direction from the lagged features
-- Evaluates performance using:
-  - Confusion matrices (train / test)
-  - Classification reports (precision, recall, f1-score, accuracy)
-  - **ROC curve** and **AUC** for both train and test sets
+The focus is on building models end-to-end, performing feature
+engineering, controlling overfitting, and evaluating model performance
+with appropriate metrics.
 
 ---
 
-### 2. Default of credit card clients
+## Project 1: S&P 500 Direction Prediction
 
-A credit-card default dataset is used to model whether a client will **default next month**.
+In the first project, the goal is to predict the **direction of the
+S&P 500 index** (up or down) for the next period.
 
 The workflow includes:
 
-- Cleaning and renaming columns
-- Feature scaling with `MinMaxScaler`
-- Splitting into train / test sets
-- Training a **logistic regression** model with class weighting
+- Loading historical S&P 500 data
+- Constructing features such as **lagged returns** and other
+  market-related variables
+- Defining a binary target variable for **next-period direction**
+- Fitting a **logistic regression classifier**
 - Evaluating performance with:
-  - Confusion matrices (train / test)
-  - Classification reports
-  - ROC curves and AUC
-- Exploring **classification threshold tuning** to trade off false positive rate (FPR) and true negative rate (TNR)
+  - Confusion matrix
+  - Accuracy and related classification metrics
+  - Train / test comparison
+
+This project illustrates how logistic regression can be used for
+directional prediction in a simple financial setting.
 
 ---
 
-### 3. Credit card balance regression
+## Project 2: Credit Card Balance Regression
 
-A third dataset models **credit card balance** as a continuous target.
+The second project focuses on modeling **credit card balance** as a
+continuous variable.
 
-The notebook:
+### Modeling approach
 
-- Loads and preprocesses the data (including categorical encoding and dummy variables)
-- Computes correlations and visualizes them with a heatmap
-- Fits an **ordinary least squares (OLS)** linear regression model using `statsmodels`
-- Reports:
-  - Regression coefficients and standard statistics (R², p-values, etc.)
-  - A simple **sensitivity analysis** of feature contributions
-- Visualizes predicted vs. actual balance values on the test set
+To capture more complex relationships between the predictors and the
+balance, the project uses:
 
----
+- **Multi-regression feature construction**  
+  (e.g., transformations / combinations of original variables to create
+  richer feature sets)
+- Regularization methods to control overfitting:
+  - **Lasso regression**
+  - **Ridge regression**
+  - **Elastic Net**
 
-## Main concepts demonstrated
+After generating the extended feature space, each of these models is
+trained and evaluated.
 
-Across these three examples, the project demonstrates:
+### Overfitting control and results
 
-- Data loading and cleaning with **pandas**
-- Feature engineering (lags, scaling, dummy variables)
-- **Logistic regression** for binary classification
-- **Linear regression (OLS)** for continuous outcomes
-- Train / test split and basic model validation
-- Confusion matrices, classification reports, ROC curves, and AUC
-- Threshold selection for classifiers
-- Interpretation of regression coefficients and sensitivity analysis
+Because the multi-feature representation can easily overfit, the
+regularization strength is tuned and different methods are compared.
+Among the tested models, **Ridge regression on the multi-feature
+representation** achieves the best performance, with an
+approximate **R² ≈ 0.94** on the credit card balance data.
 
----
+This project highlights:
 
-## Dependencies
-
-The notebook uses standard Python data-science libraries, including:
-
-- `pandas`
-- `numpy`
-- `matplotlib`
-- `seaborn`
-- `scikit-learn`
-- `statsmodels`
-- `yfinance`
+- The trade-off between model complexity and generalization
+- How regularization (especially Ridge) can stabilize multi-regression
+  models in practice
+- How to interpret regression performance in a financial context
 
 ---
 
-## How to use this project
+## Main methods and concepts
 
-1. Open the provided Jupyter Notebook (or the exported Python script) in your environment.  
-2. Make sure the required CSV files (e.g., S&P 500 data, credit default data, credit balance data) are available in the working directory.  
-3. Run the notebook cells from top to bottom to:
-   - Download / load the data
-   - Build and evaluate the models
-   - Generate plots (confusion matrices, ROC curves, correlation heatmaps, etc.)
+Across both projects, the repository demonstrates:
 
-You can adapt the code to your own datasets by:
+- **Logistic regression** for binary classification (market direction)
+- **Multiple linear regression** for continuous targets (balance)
+- **Feature engineering** and multi-feature construction
+- **Regularization techniques**:
+  - Lasso
+  - Ridge
+  - Elastic Net
+- Model evaluation using:
+  - Confusion matrices and accuracy (classification)
+  - R² and error metrics (regression)
+- Basic handling of financial data and interpretation of results
 
-- Replacing the input data
-- Modifying the feature engineering steps
-- Changing model parameters or evaluation metrics
+---
+
+## How to use this repository
+
+Each project is implemented in its own script or notebook. To work with
+the code:
+
+1. Open the corresponding file for the **S&P 500 direction** project.  
+   - Run all cells / code blocks to:
+     - Load the data
+     - Build features
+     - Train the logistic regression model
+     - Inspect classification results
+
+2. Open the corresponding file for the **Credit Card Balance** project.  
+   - Run the workflow to:
+     - Build the multi-feature dataset
+     - Fit Lasso, Ridge, and Elastic Net models
+     - Compare their performance
+     - Reproduce the **R² ≈ 0.94** Ridge result
+
+You can adapt the code to other financial datasets by changing the input
+data and adjusting the feature engineering steps.
 
 ---
 
 ## Possible extensions
 
-- Try different classifiers (e.g., Random Forest, XGBoost) on the same datasets  
-- Add cross-validation and hyperparameter tuning  
-- Experiment with more financial features (technical indicators, macro variables, etc.)  
-- Deploy the trained models as simple APIs or dashboards
+- Add more advanced classifiers (e.g., Random Forest, Gradient Boosting)  
+- Perform cross-validation and hyperparameter tuning for all models  
+- Experiment with additional financial features or macroeconomic
+  variables  
+- Package the best models as simple APIs or interactive dashboards
